@@ -1,0 +1,39 @@
+# Visual Studio / .NET
+bin/
+obj/
+*.user
+*.suo
+*.csproj.user
+*.sln.docstates
+packages/
+*.ncrunch*
+_ReSharper.Caches/
+*.DotSettings.user
+
+# Rider / JetBrains
+.idea/
+*.iml
+*.iws
+
+# Node / React
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS-specifiek
+.DS_Store
+Thumbs.db
+
+# PWA / Frontend caching
+service-worker.js
+workbox-*
+
+# Andere tijdelijke bestanden
+*.tmp
+*.temp
