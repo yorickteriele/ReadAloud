@@ -1,0 +1,6 @@
+torch
+torchaudio
+fastapi
+uvicorn[standard]
+chatterbox-tts
+peft
