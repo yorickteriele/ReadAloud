@@ -2,13 +2,12 @@
 
 ## MVP Iteratie 1 – Basis PWA met TTS
 
-- [ ] Backend: Configureer **ASP.NET Core + Individual Accounts + JWT**
-- [ ] Backend: Zet **PostgreSQL** op en configureer EF Core
-- [ ] Frontend: Initieer **React + TypeScript + Tailwind + PWA**
-- [ ] Frontend: Basis login/register flow (JWT)
-- [ ] Backend: Endpoint om **tekst naar audio te converteren** (via TTS API)
-- [ ] Frontend: Simpele **audio player** (play/pause) voor 1 tekst
-- [ ] Test end-to-end: upload tekst → luister audio
+- [X] Backend: Configureer **ASP.NET Core + Individual Accounts + JWT**
+- [X] Backend: Zet **PostgreSQL** op en configureer EF Core
+- [X] Frontend: Initieer **React + TypeScript + Tailwind + PWA**
+- [X] Frontend: Basis login/register flow (JWT)
+- [X] Backend: Endpoint om **tekst naar audio te converteren** (via TTS API)
+- [X] Test end-to-end: upload tekst → luister audio
 
 ## Iteratie 2 – Boekbeheer en gebruikerservaring
 
