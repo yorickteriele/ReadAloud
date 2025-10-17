@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #3a422f;
+  --color-background-light: #f2e8dd;
+  --color-foreground: #e5d4c0;
+  --color-foreground-light: #3a422f;
+  --color-primary: #b08659;
+  --color-primary-foreground: #f5eee6;
+  --color-primary-light: #8b6b47;
+  --color-primary-foreground-light: #f8f3ed;
+  --color-secondary: #465339;
+  --color-secondary-foreground: #e5d4c0;
+  --color-secondary-light: #e9dfd4;
+  --color-secondary-foreground-light: #3a422f;
+  --color-accent: #927154;
+  --color-accent-foreground: #f5eee6;
+  --color-accent-foreground-light: #f8f3ed;
+  --color-muted: #4a583d;
+  --color-muted-foreground: #d1baa3;
+  --color-muted-light: #e9dfd4;
+  --color-muted-foreground-light: #526045;
+  --color-border: #566244;
+  --color-border-light: #d4c5b3;
+  --color-input: #465339;
+  --color-input-light: #f2e8dd;
+  --color-ring: #b08659;
+  --color-ring-light: #8b6b47;
+  --color-card: #465339;
+  --color-card-foreground: #e5d4c0;
+  --color-card-light: #f8f3ed;
+  --color-card-foreground-light: #3a422f;
+  
+  --font-family-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-family-mono: var(--font-geist-mono), monospace;
+
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+  --animate-slide-up: slideUp 0.6s ease-out;
+  --animate-slide-in: slideIn 0.5s ease-out;
+}
