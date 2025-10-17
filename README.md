@@ -6,7 +6,7 @@
 - [X] Backend: Zet **PostgreSQL** op en configureer EF Core
 - [X] Frontend: Initieer **React + TypeScript + Tailwind + PWA**
 - [ ] Frontend: Basis login/register flow (JWT)
-- [ ] Backend: Endpoint om **tekst naar audio te converteren** (via TTS API)
+- [X] Backend: Endpoint om **tekst naar audio te converteren** (via TTS API)
 - [ ] Frontend: Simpele **audio player** (play/pause) voor 1 tekst
 - [ ] Test end-to-end: upload tekst → luister audio
 

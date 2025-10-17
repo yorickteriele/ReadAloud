@@ -21,10 +21,10 @@
 
     <ItemGroup>
       <Folder Include="Migrations\" />
-      <Folder Include="Repositories\" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ReadAloud.Application\ReadAloud.Application.csproj" />
       <ProjectReference Include="..\ReadAloud.Domain\ReadAloud.Domain.csproj" />
     </ItemGroup>
 

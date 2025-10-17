@@ -1,9 +1,12 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ReadAloud.Application.Audio;
 using ReadAloud.Domain;
 using ReadAloud.Infrastructure.Data;
+using ReadAloud.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<AudioService>();
+builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<IAudioRepository, ChatterBoxAudioRepository>();
+builder.Services.AddHttpClient<IAudioRepository, ChatterBoxAudioRepository>();
+
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -51,6 +61,12 @@ builder.Services.AddAuthentication(options =>
     });
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
