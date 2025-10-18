@@ -55,6 +55,14 @@ public class BookRepository : IBookRepository {
             .FirstOrDefaultAsync(b => b.Id == id) ?? throw new KeyNotFoundException($"Book with ID {id} not found");
     }
 
+    public async Task<List<Book>> GetAllAsync() {
+        return await _context.Books
+            .Include(b => b.Chapters)
+            .ThenInclude(c => c.Paragraphs)
+            .OrderByDescending(b => b.Id)
+            .ToListAsync();
+    }
+
     public async Task UpdateAsync(Book book) {
         if (book == null) {
             throw new ArgumentNullException(nameof(book));
