@@ -37,3 +37,7 @@ workbox-*
 # Andere tijdelijke bestanden
 *.tmp
 *.temp
+
+Chatterbox-TTS-Server
+
+ReadAloud.API/BookData/

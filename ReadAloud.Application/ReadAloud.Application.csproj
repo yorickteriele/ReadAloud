@@ -9,6 +9,7 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+      <PackageReference Include="VersOne.Epub" Version="3.3.4" />
     </ItemGroup>
 
     <ItemGroup>
