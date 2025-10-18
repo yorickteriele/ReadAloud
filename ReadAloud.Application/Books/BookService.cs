@@ -66,6 +66,54 @@ public class BookService {
         }
     }
 
+    /// <summary>
+    /// Get all books
+    /// </summary>
+    public async Task<List<Book>> GetAllBooksAsync() {
+        try {
+            var books = await _bookRepository.GetAllAsync();
+            _logger.LogInformation("Retrieved {BookCount} books", books?.Count ?? 0);
+            return books;
+        }
+        catch (Exception ex) {
+            _logger.LogError(ex, "Error retrieving all books");
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Get a specific book by ID
+    /// </summary>
+    public async Task<Book> GetBookByIdAsync(int id) {
+        try {
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book != null) {
+                _logger.LogInformation("Retrieved book with ID: {BookId}, Title: {Title}", id, book.Title);
+            } else {
+                _logger.LogWarning("Book not found with ID: {BookId}", id);
+            }
+            return book;
+        }
+        catch (Exception ex) {
+            _logger.LogError(ex, "Error retrieving book with ID: {BookId}", id);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Delete a book by ID
+    /// </summary>
+    public async Task DeleteBookAsync(int id) {
+        try {
+            await _bookRepository.DeleteAsync(id);
+            _logger.LogInformation("Successfully deleted book with ID: {BookId}", id);
+        }
+        catch (Exception ex) {
+            _logger.LogError(ex, "Error deleting book with ID: {BookId}", id);
+            throw;
+        }
+    }
+
     private async Task<byte[]> GetCoverImageAsync(Stream fileStream) {
         var epubBook = await VersOne.Epub.EpubReader.ReadBookAsync(fileStream);
         return epubBook.CoverImage;
