@@ -7,7 +7,7 @@
 - [X] Frontend: Initieer **React + TypeScript + Tailwind + PWA**
 - [X] Frontend: Basis login/register flow (JWT)
 - [X] Backend: Endpoint om **tekst naar audio te converteren** (via TTS API)
-- [X] Test end-to-end: upload tekst → luister audio
+- [ ] Test end-to-end: upload tekst → luister audio
 
 ## Iteratie 2 – Boekbeheer en gebruikerservaring
 

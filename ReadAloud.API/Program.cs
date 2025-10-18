@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ReadAloud.Application.Audio;
 using ReadAloud.Application.Authentication;
+using ReadAloud.Application.Books;
+using ReadAloud.Application.Books.Parsing;
 using ReadAloud.Domain;
 using ReadAloud.Infrastructure.Data;
 using ReadAloud.Infrastructure.Repositories;
@@ -18,9 +20,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<AudioService>();
 builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAudioRepository, ChatterBoxAudioRepository>();
 builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IParser, Parser>();
 builder.Services.AddHttpClient<IAudioRepository, ChatterBoxAudioRepository>();
 
 // CORS configuration
