@@ -44,11 +44,9 @@ services:
   web:
     build:
       context: ./ReadAloud.Web
-    ports:
-      - "443:443"
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
+    networks:
+      - default
+      - dokploy-network
     depends_on:
       - api
     restart: unless-stopped
@@ -56,5 +54,7 @@ services:
 volumes:
   postgres_data:
   chatterbox_prompts:
-  caddy_data:
-  caddy_config:
+
+networks:
+  dokploy-network:
+    external: true
