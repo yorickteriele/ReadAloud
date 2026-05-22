@@ -33,7 +33,7 @@ services:
       JwtSettings__Key: "${JWT_SECRET_KEY:-DefaultSecretKey1234567890DefaultSecretKey1234567890}"
       JwtSettings__Issuer: ReadAloudAPI
       JwtSettings__Audience: ReadAloudClient
-      AllowedOrigins: "${ALLOWED_ORIGINS:-http://readaloud.178.105.190.131.traefik.me}"
+      AllowedOrigins: "${ALLOWED_ORIGINS:-https://readaloud.yorickteriele.nl}"
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,7 +46,7 @@ services:
       context: ./ReadAloud.Web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.readaloud-web.rule=Host(`readaloud.178.105.190.131.traefik.me`)"
+      - "traefik.http.routers.readaloud-web.rule=Host(`readaloud.yorickteriele.nl`)"
       - "traefik.http.services.readaloud-web.loadbalancer.server.port=80"
     networks:
       - default
