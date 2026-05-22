@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using ReadAloud.Application.Audio;
 using ReadAloud.Infrastructure.Requests;
 
@@ -13,10 +14,11 @@ namespace ReadAloud.Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        public ChatterBoxAudioRepository(HttpClient httpClient)
+        public ChatterBoxAudioRepository(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:8000");
+            var baseUrl = configuration["ChatterBox:BaseUrl"] ?? "http://localhost:8000";
+            _httpClient.BaseAddress = new Uri(baseUrl);
             httpClient.Timeout = TimeSpan.FromMinutes(5);
         }
 
