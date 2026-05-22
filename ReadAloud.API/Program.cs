@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ReadAloud.Application.Audio;
 using ReadAloud.Application.Authentication;
+using ReadAloud.Application.Books;
+using ReadAloud.Application.Books.Parsing;
 using ReadAloud.Domain;
 using ReadAloud.Infrastructure.Data;
 using ReadAloud.Infrastructure.Repositories;
@@ -18,22 +20,23 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<AudioService>();
 builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAudioRepository, ChatterBoxAudioRepository>();
 builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IParser, Parser>();
 builder.Services.AddHttpClient<IAudioRepository, ChatterBoxAudioRepository>();
 
-// CORS configuration
+// CORS configuration — origins can be overridden via AllowedOrigins env var (comma-separated)
+var allowedOrigins = (builder.Configuration["AllowedOrigins"] ?? "http://localhost:5173,https://localhost:5173,http://localhost:3000")
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "https://localhost:5173",
-                "http://localhost:3000",
-                "https://localhost:3000"
-            )
+        policy.WithOrigins(allowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -81,18 +84,24 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// Auto-apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapControllers();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
 app.Run();

@@ -7,12 +7,12 @@
 - [X] Frontend: Initieer **React + TypeScript + Tailwind + PWA**
 - [X] Frontend: Basis login/register flow (JWT)
 - [X] Backend: Endpoint om **tekst naar audio te converteren** (via TTS API)
-- [X] Test end-to-end: upload tekst → luister audio
+- [ ] Test end-to-end: upload tekst → luister audio
 
 ## Iteratie 2 – Boekbeheer en gebruikerservaring
 
-- [ ] Backend: Sla **boeken / hoofdstukken** op in database
-- [ ] Frontend: Boek upload + lijst tonen van boeken
+- [X] Backend: Sla **boeken / hoofdstukken** op in database
+- [X] Frontend: Boek upload + lijst tonen van boeken
 - [ ] Frontend: Luistergeschiedenis opslaan (per gebruiker)
 - [ ] Backend: Voeg **Redis caching** toe voor TTS audio
 - [ ] Frontend: Audio player uitbreiden met **speed & stem selectie**
