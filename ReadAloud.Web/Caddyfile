@@ -1,0 +1,15 @@
+readaloud.yorickteriele.nl {
+    tls {
+        challenges tls-alpn-01
+    }
+
+    handle /api/* {
+        reverse_proxy api:8080
+    }
+
+    handle {
+        root * /srv
+        file_server
+        try_files {path} /index.html
+    }
+}

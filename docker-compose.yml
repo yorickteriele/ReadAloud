@@ -44,13 +44,11 @@ services:
   web:
     build:
       context: ./ReadAloud.Web
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.readaloud-web.rule=Host(`readaloud.yorickteriele.nl`)"
-      - "traefik.http.services.readaloud-web.loadbalancer.server.port=80"
-    networks:
-      - default
-      - dokploy-network
+    ports:
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
     depends_on:
       - api
     restart: unless-stopped
@@ -58,7 +56,5 @@ services:
 volumes:
   postgres_data:
   chatterbox_prompts:
-
-networks:
-  dokploy-network:
-    external: true
+  caddy_data:
+  caddy_config:
