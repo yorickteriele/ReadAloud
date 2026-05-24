@@ -1,0 +1,142 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Restore backend
+        run: dotnet restore src/ReadAloud.slnx
+
+      - name: Build backend
+        run: dotnet build src/ReadAloud.slnx --configuration Release --no-restore
+
+      - name: Test backend
+        run: dotnet test src/ReadAloud.slnx --configuration Release --no-build --verbosity normal
+
+      - name: Install frontend dependencies
+        working-directory: src/frontend
+        run: npm ci
+
+      - name: Start Host for OpenAPI
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: http://localhost:5001
+          Database__ApplyMigrationsOnStartup: "false"
+          JwtSettings__Key: ci_secret_value_that_is_long_enough_for_testing_only_1234567890
+          JwtSettings__Issuer: ReadAloudAPI
+          JwtSettings__Audience: ReadAloudClient
+          ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=ReadAloudDb;Username=postgres;Password=postgres;
+        run: |
+          dotnet run --project src/backend/Host/Host.csproj --configuration Release --no-build --no-launch-profile \
+            > /tmp/readaloud-host.log 2>&1 &
+          echo $! > /tmp/readaloud-host.pid
+
+      - name: Wait for Host
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -sf http://localhost:5001/health > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/readaloud-host.log
+          exit 1
+
+      - name: Generate frontend contracts
+        working-directory: src/frontend
+        env:
+          OPENAPI_BASE_URL: http://localhost:5001
+        run: npm run generate
+
+      - name: Build frontend
+        working-directory: src/frontend
+        run: npm run build
+
+      - name: Build backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: src/backend/Dockerfile
+          push: false
+          tags: readaloud-backend:ci
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: src/frontend/Dockerfile
+          push: false
+          build-args: |
+            VITE_API_BASE_URL=${{ vars.VITE_API_BASE_URL || 'https://readaloud.yorickteriele.nl' }}
+          tags: readaloud-frontend:ci
+
+      - name: Print Host logs on failure
+        if: failure()
+        run: cat /tmp/readaloud-host.log || true
+
+      - name: Stop Host
+        if: always()
+        run: kill "$(cat /tmp/readaloud-host.pid)" 2>/dev/null || true
+
+  deploy:
+    name: Deploy Dokploy Compose
+    runs-on: ubuntu-latest
+    needs: validate
+    environment:
+      name: Production
+      url: https://readaloud.yorickteriele.nl
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dokploy CLI
+        run: npm install -g @dokploy/cli
+
+      - name: Deploy compose app
+        env:
+          NODE_OPTIONS: --dns-result-order=ipv4first
+          DOKPLOY_URL: ${{ vars.DOKPLOY_HOST }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_TOKEN }}
+        run: |
+          dokploy compose deploy \
+            --composeId "${{ vars.DOKPLOY_COMPOSE_ID }}" \
+            --title "ReadAloud ${{ github.sha }}" \
+            --description "Deploy from GitHub Actions"
+
+      - name: Wait for health
+        run: |
+          for attempt in $(seq 1 36); do
+            if curl -sf "${{ vars.BACKEND_HEALTH_URL || 'https://readaloud.yorickteriele.nl/health' }}" > /dev/null; then
+              echo "Healthy after $((attempt * 10))s"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Backend unhealthy after 6 minutes"
+          exit 1

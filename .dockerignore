@@ -4,7 +4,8 @@
 **/dist/
 .git/
 .idea/
-ReadAloud.Tests/
-ReadAloud.Web/node_modules/
-ReadAloud.Web/dist/
+src/backend/Modules/ReadAloud/ReadAloud.Tests/bin/
+src/backend/Modules/ReadAloud/ReadAloud.Tests/obj/
+src/frontend/node_modules/
+src/frontend/dist/
 ChatterBox/torch/

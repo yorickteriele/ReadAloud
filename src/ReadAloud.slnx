@@ -1,0 +1,24 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Modules/">
+    <Project Path="backend/Modules/Module.Abstractions/Module.Abstractions.csproj" />
+  </Folder>
+  <Folder Name="/Modules/ReadAloud/">
+    <Project Path="backend/Modules/ReadAloud/ReadAloud.Api/ReadAloud.Api.csproj" />
+    <Project Path="backend/Modules/ReadAloud/ReadAloud.Application/ReadAloud.Application.csproj" />
+    <Project Path="backend/Modules/ReadAloud/ReadAloud.Contracts/ReadAloud.Contracts.csproj" />
+    <Project Path="backend/Modules/ReadAloud/ReadAloud.Domain/ReadAloud.Domain.csproj" />
+    <Project Path="backend/Modules/ReadAloud/ReadAloud.Infrastructure/ReadAloud.Infrastructure.csproj" />
+    <Project Path="backend/Modules/ReadAloud/ReadAloud.Tests/ReadAloud.Tests.csproj" />
+    <Project Path="frontend/src/modules/readaloud/ReadAloud.Presentation.esproj">
+      <Platform Project="AnyCPU" />
+    </Project>
+  </Folder>
+  <Project Path="frontend/Frontend.esproj" />
+  <Project Path="backend/Host/Host.csproj" />
+  <Project Path="backend/MigrationRunner/MigrationRunner.csproj" />
+</Solution>

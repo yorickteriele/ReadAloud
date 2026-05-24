@@ -40,4 +40,8 @@ workbox-*
 
 Chatterbox-TTS-Server
 
-ReadAloud.API/BookData/
+src/backend/Modules/ReadAloud/ReadAloud.Api/BookData/
+
+# Generated OpenAPI/NSwag frontend contracts
+src/frontend/openapi/
+src/frontend/src/api/generated/

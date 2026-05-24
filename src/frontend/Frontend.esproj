@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.SDK/1.0.5277448">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>f41e1060-3c89-4217-a8f2-1d35ecf477d6</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupCommand>npm run dev</StartupCommand>
+    <BuildCommand>npm run build</BuildCommand>
+    <TestCommand>npm run test:e2e</TestCommand>
+  </PropertyGroup>
+</Project>
