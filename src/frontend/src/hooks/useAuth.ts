@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/auth.store';
+import { useAuthStore } from '../modules/identity/store/auth.store';
 
 export const useAuth = () => {
   const navigate = useNavigate();

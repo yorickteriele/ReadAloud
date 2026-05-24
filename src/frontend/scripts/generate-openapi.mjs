@@ -13,16 +13,18 @@ async function fetchSpecs() {
   await mkdir(frontendOpenApiDir, { recursive: true })
 
   for (const moduleConfig of modules) {
-    const endpoint = `${openApiBaseUrl}${moduleConfig.swaggerPath}`
+    const moduleName = moduleConfig.name
+    const specFile = moduleConfig.specFile ?? `${moduleName}.openapi.json`
+    const endpoint = `${openApiBaseUrl}/swagger/${moduleName}/swagger.json`
     const response = await fetch(endpoint)
     if (!response.ok) {
-      throw new Error(`Failed to fetch OpenAPI for ${moduleConfig.name} from ${endpoint}`)
+      throw new Error(`Failed to fetch OpenAPI for module ${moduleName} from ${endpoint}`)
     }
 
     const body = await response.text()
     JSON.parse(body)
 
-    const destination = path.join(frontendOpenApiDir, moduleConfig.specFile)
+    const destination = path.join(frontendOpenApiDir, specFile)
     await writeFile(destination, body, 'utf8')
     console.log(`OpenAPI fetched to ${destination} from ${endpoint}`)
   }

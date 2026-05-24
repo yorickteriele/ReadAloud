@@ -7,14 +7,36 @@
   <Folder Name="/Modules/">
     <Project Path="backend/Modules/Module.Abstractions/Module.Abstractions.csproj" />
   </Folder>
-  <Folder Name="/Modules/ReadAloud/">
-    <Project Path="backend/Modules/ReadAloud/ReadAloud.Api/ReadAloud.Api.csproj" />
-    <Project Path="backend/Modules/ReadAloud/ReadAloud.Application/ReadAloud.Application.csproj" />
-    <Project Path="backend/Modules/ReadAloud/ReadAloud.Contracts/ReadAloud.Contracts.csproj" />
-    <Project Path="backend/Modules/ReadAloud/ReadAloud.Domain/ReadAloud.Domain.csproj" />
-    <Project Path="backend/Modules/ReadAloud/ReadAloud.Infrastructure/ReadAloud.Infrastructure.csproj" />
-    <Project Path="backend/Modules/ReadAloud/ReadAloud.Tests/ReadAloud.Tests.csproj" />
-    <Project Path="frontend/src/modules/readaloud/ReadAloud.Presentation.esproj">
+  <Folder Name="/Modules/Audio/">
+    <Project Path="backend/Modules/Audio/Audio.Api/Audio.Api.csproj" />
+    <Project Path="backend/Modules/Audio/Audio.Application/Audio.Application.csproj" />
+    <Project Path="backend/Modules/Audio/Audio.Contracts/Audio.Contracts.csproj" />
+    <Project Path="backend/Modules/Audio/Audio.Domain/Audio.Domain.csproj" />
+    <Project Path="backend/Modules/Audio/Audio.Infrastructure/Audio.Infrastructure.csproj" />
+    <Project Path="backend/Modules/Audio/Audio.Tests/Audio.Tests.csproj" />
+    <Project Path="frontend/src/modules/audio/Audio.Presentation.esproj">
+      <Platform Project="AnyCPU" />
+    </Project>
+  </Folder>
+  <Folder Name="/Modules/Books/">
+    <Project Path="backend/Modules/Books/Books.Api/Books.Api.csproj" />
+    <Project Path="backend/Modules/Books/Books.Application/Books.Application.csproj" />
+    <Project Path="backend/Modules/Books/Books.Contracts/Books.Contracts.csproj" />
+    <Project Path="backend/Modules/Books/Books.Domain/Books.Domain.csproj" />
+    <Project Path="backend/Modules/Books/Books.Infrastructure/Books.Infrastructure.csproj" />
+    <Project Path="backend/Modules/Books/Books.Tests/Books.Tests.csproj" />
+    <Project Path="frontend/src/modules/books/Books.Presentation.esproj">
+      <Platform Project="AnyCPU" />
+    </Project>
+  </Folder>
+  <Folder Name="/Modules/Identity/">
+    <Project Path="backend/Modules/Identity/Identity.Api/Identity.Api.csproj" />
+    <Project Path="backend/Modules/Identity/Identity.Application/Identity.Application.csproj" />
+    <Project Path="backend/Modules/Identity/Identity.Contracts/Identity.Contracts.csproj" />
+    <Project Path="backend/Modules/Identity/Identity.Domain/Identity.Domain.csproj" />
+    <Project Path="backend/Modules/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj" />
+    <Project Path="backend/Modules/Identity/Identity.Tests/Identity.Tests.csproj" />
+    <Project Path="frontend/src/modules/identity/Identity.Presentation.esproj">
       <Platform Project="AnyCPU" />
     </Project>
   </Folder>

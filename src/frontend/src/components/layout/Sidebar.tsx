@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, Library, Upload, LogOut, Menu, X } from 'lucide-react';
-import { useAuthStore } from '../../store/auth.store';
+import { useAuthStore } from '../../modules/identity/store/auth.store';
 import { useState } from 'react';
 
 export const Sidebar = () => {

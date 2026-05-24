@@ -1,14 +1,23 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { MainLayout } from './components/layout';
 import { PrivateRoute, PublicRoute } from './components/ProtectedRoute';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { LibraryPage } from './pages/LibraryPage';
-import { UploadPage } from './pages/UploadPage';
-import { BookReaderPage } from './pages/BookReaderPage';
+import { LoginPage } from './modules/identity/pages/LoginPage';
+import { RegisterPage } from './modules/identity/pages/RegisterPage';
+import { MarketingPage } from './modules/marketing/pages/MarketingPage';
+import { LibraryPage } from './modules/books/pages/LibraryPage';
+import { UploadPage } from './modules/books/pages/UploadPage';
+import { BookReaderPage } from './modules/books/pages/BookReaderPage';
 import { routes } from './routes/paths';
 
 export const router = createBrowserRouter([
+  {
+    path: routes.home,
+    element: (
+      <PublicRoute>
+        <MarketingPage />
+      </PublicRoute>
+    ),
+  },
   {
     path: routes.login,
     element: (
@@ -26,7 +35,6 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: routes.home,
     element: (
       <PrivateRoute>
         <MainLayout />
@@ -34,15 +42,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
-        element: <Navigate to={routes.library} replace />,
-      },
-      {
-        path: routes.library.slice(1),
+        path: routes.library,
         element: <LibraryPage />,
       },
       {
-        path: routes.upload.slice(1),
+        path: routes.upload,
         element: <UploadPage />,
       },
       {
@@ -53,6 +57,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <Navigate to={routes.library} replace />,
+    element: <Navigate to={routes.home} replace />,
   },
 ]);

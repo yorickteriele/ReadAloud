@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Modules\Module.Abstractions\Module.Abstractions.csproj" />
-    <ProjectReference Include="..\Modules\ReadAloud\ReadAloud.Api\ReadAloud.Api.csproj" />
+    <ProjectReference Include="..\Modules\Identity\Identity.Api\Identity.Api.csproj" />
+    <ProjectReference Include="..\Modules\Books\Books.Api\Books.Api.csproj" />
+    <ProjectReference Include="..\Modules\Audio\Audio.Api\Audio.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
