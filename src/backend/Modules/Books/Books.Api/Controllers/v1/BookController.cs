@@ -26,10 +26,17 @@ public class BookController : ControllerBase {
     /// Get all books
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<List<Book>>> GetAllBooks() {
+    public async Task<ActionResult<List<BookDto>>> GetAllBooks() {
         try {
             var books = await _bookService.GetAllBooksAsync();
-            return Ok(books);
+            var dtos = books.Select(b => new BookDto {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                LaungaugeId = b.LaungaugeId,
+                CoverImagePath = b.CoverImagePath
+            }).ToList();
+            return Ok(dtos);
         }
         catch (Exception ex) {
             _logger.LogError(ex, "Error retrieving all books");
@@ -43,7 +50,7 @@ public class BookController : ControllerBase {
     [HttpGet("{id}")]
     public async Task<ActionResult<Book>> GetBook(int id) {
         try {
-            var book = await _bookService.GetBookByIdAsync(id);
+            var book = await _bookService.GetBookMetadataByIdAsync(id);
             if (book == null)
                 return NotFound("Book not found");
             
@@ -52,6 +59,24 @@ public class BookController : ControllerBase {
         catch (Exception ex) {
             _logger.LogError(ex, "Error retrieving book with ID: {BookId}", id);
             return StatusCode(500, "Error retrieving book");
+        }
+    }
+
+    /// <summary>
+    /// Get a specific chapter of a book
+    /// </summary>
+    [HttpGet("{id}/chapters/{chapterNumber}")]
+    public async Task<ActionResult<Chapter>> GetChapter(int id, int chapterNumber) {
+        try {
+            var chapter = await _bookService.GetChapterAsync(id, chapterNumber);
+            if (chapter == null)
+                return NotFound("Chapter not found");
+            
+            return Ok(chapter);
+        }
+        catch (Exception ex) {
+            _logger.LogError(ex, "Error retrieving chapter {ChapterNumber} for book {BookId}", chapterNumber, id);
+            return StatusCode(500, "Error retrieving chapter");
         }
     }
 

@@ -1,6 +1,6 @@
 import { booksApiClient } from '../api/client';
 import { API_BASE_URL } from '../../../lib/apiBaseUrl';
-import type { Book, FileParameter } from '../api/generated/api-client';
+import type { Book, FileParameter, Chapter } from '../api/generated/api-client';
 
 export const bookService = {
   async getAllBooks(): Promise<Book[]> {
@@ -9,6 +9,10 @@ export const bookService = {
 
   async getBook(id: number): Promise<Book> {
     return await booksApiClient.getBook(id);
+  },
+
+  async getChapter(bookId: number, chapterNumber: number): Promise<Chapter> {
+    return await booksApiClient.getChapter(bookId, chapterNumber);
   },
 
   async uploadBook(file: File, title: string, author: string, launguageId: string): Promise<Book> {
@@ -36,6 +40,7 @@ export const bookService = {
 
   getCoverImageUrl(coverPath?: string): string {
     if (!coverPath) return '/placeholder-book.png';
-    return `${API_BASE_URL}${coverPath}`;
+    const normalizedPath = coverPath.startsWith('/') ? coverPath : `/${coverPath}`;
+    return `${API_BASE_URL}${normalizedPath}`;
   },
 };

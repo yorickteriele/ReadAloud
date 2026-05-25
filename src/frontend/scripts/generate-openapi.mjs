@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const frontendRoot = path.resolve(__dirname, '..')
 const frontendOpenApiDir = path.resolve(frontendRoot, 'openapi')
-const openApiBaseUrl = (process.env.OPENAPI_BASE_URL ?? 'http://localhost:5001').replace(/\/$/, '')
+const openApiBaseUrl = (process.env.OPENAPI_BASE_URL ?? 'http://localhost:5101').replace(/\/$/, '')
 
 async function fetchSpecs() {
   await mkdir(frontendOpenApiDir, { recursive: true })

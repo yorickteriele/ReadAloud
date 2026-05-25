@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi;
 using Module.Abstractions;
 
@@ -131,6 +132,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseForwardedHeaders();
 app.UseCors(CorsPolicy);
+
+var bookDataPath = Path.Combine(builder.Environment.ContentRootPath, "BookData");
+if (!Directory.Exists(bookDataPath))
+{
+    Directory.CreateDirectory(bookDataPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(bookDataPath),
+    RequestPath = "/BookData"
+});
 
 foreach (var module in modules)
 {

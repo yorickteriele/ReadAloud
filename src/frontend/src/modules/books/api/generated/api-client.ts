@@ -20,7 +20,7 @@ export class BooksApiClient {
     /**
      * @return OK
      */
-    getAllBooks(signal?: AbortSignal): Promise<Book[]> {
+    getAllBooks(signal?: AbortSignal): Promise<BookDto[]> {
         let url_ = this.baseUrl + "/api/v1/book";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -37,13 +37,13 @@ export class BooksApiClient {
         });
     }
 
-    protected processGetAllBooks(response: Response): Promise<Book[]> {
+    protected processGetAllBooks(response: Response): Promise<BookDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Book[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BookDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -51,7 +51,7 @@ export class BooksApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Book[]>(null as any);
+        return Promise.resolve<BookDto[]>(null as any);
     }
 
     /**
@@ -132,6 +132,49 @@ export class BooksApiClient {
     }
 
     /**
+     * @return OK
+     */
+    getChapter(id: number, chapterNumber: number, signal?: AbortSignal): Promise<Chapter> {
+        let url_ = this.baseUrl + "/api/v1/book/{id}/chapters/{chapterNumber}";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (chapterNumber === undefined || chapterNumber === null)
+            throw new globalThis.Error("The parameter 'chapterNumber' must be defined.");
+        url_ = url_.replace("{chapterNumber}", encodeURIComponent("" + chapterNumber));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            signal,
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetChapter(_response);
+        });
+    }
+
+    protected processGetChapter(response: Response): Promise<Chapter> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Chapter;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Chapter>(null as any);
+    }
+
+    /**
      * @param file (optional) 
      * @param title (optional) 
      * @param author (optional) 
@@ -194,9 +237,9 @@ export class BooksApiClient {
 
 export interface Book {
     id?: number;
-    title?: string | undefined;
-    author?: string | undefined;
-    laungaugeId?: string | undefined;
+    title: string | undefined;
+    author: string | undefined;
+    laungaugeId: string | undefined;
     coverImagePath?: string | undefined;
     chapters?: Chapter[] | undefined;
 }
@@ -213,7 +256,7 @@ export interface Chapter {
     id?: number;
     bookId?: number;
     chapterNumber?: number;
-    title?: string | undefined;
+    title: string | undefined;
     paragraphs?: Paragraph[] | undefined;
 }
 
@@ -221,7 +264,7 @@ export interface Paragraph {
     id?: number;
     chapterId?: number;
     paragraphNumber?: number;
-    text?: string | undefined;
+    text: string | undefined;
 }
 
 export interface UploadBookResponseDto {

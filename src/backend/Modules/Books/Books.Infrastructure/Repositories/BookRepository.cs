@@ -55,6 +55,47 @@ public class BookRepository : IBookRepository {
             .FirstOrDefaultAsync(b => b.Id == id) ?? throw new KeyNotFoundException($"Book with ID {id} not found");
     }
 
+    public async Task<Book?> GetMetadataByIdAsync(int id) {
+        return await _context.Books
+            .Include(b => b.Chapters)
+            .Select(b => new Book {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                LaungaugeId = b.LaungaugeId,
+                CoverImagePath = b.CoverImagePath,
+                Chapters = b.Chapters.Select(c => new Chapter {
+                    Id = c.Id,
+                    BookId = c.BookId,
+                    ChapterNumber = c.ChapterNumber,
+                    Title = c.Title,
+                    Paragraphs = new List<Paragraph>() // No paragraphs
+                }).OrderBy(c => c.ChapterNumber).ToList()
+            })
+            .FirstOrDefaultAsync(b => b.Id == id);
+    }
+
+    public async Task<List<Book>> GetAllMetadataAsync() {
+        return await _context.Books
+            .AsNoTracking()
+            .Select(b => new Book {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                LaungaugeId = b.LaungaugeId,
+                CoverImagePath = b.CoverImagePath,
+                Chapters = new List<Chapter>() 
+            })
+            .OrderByDescending(b => b.Id)
+            .ToListAsync();
+    }
+
+    public async Task<Chapter?> GetChapterAsync(int bookId, int chapterNumber) {
+        return await _context.Chapters
+            .Include(c => c.Paragraphs)
+            .FirstOrDefaultAsync(c => c.BookId == bookId && c.ChapterNumber == chapterNumber);
+    }
+
     public async Task<List<Book>> GetAllAsync() {
         return await _context.Books
             .Include(b => b.Chapters)

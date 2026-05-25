@@ -70,12 +70,48 @@ public class BookService {
     /// </summary>
     public async Task<List<Book>> GetAllBooksAsync() {
         try {
-            var books = await _bookRepository.GetAllAsync();
-            _logger.LogInformation("Retrieved {BookCount} books", books.Count);
+            var books = await _bookRepository.GetAllMetadataAsync();
+            _logger.LogInformation("Retrieved {BookCount} books metadata", books.Count);
             return books;
         }
         catch (Exception ex) {
             _logger.LogError(ex, "Error retrieving all books");
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Get a specific book metadata by ID (includes chapter titles but no paragraphs)
+    /// </summary>
+    public async Task<Book?> GetBookMetadataByIdAsync(int id) {
+        try {
+            var book = await _bookRepository.GetMetadataByIdAsync(id);
+            if (book != null) {
+                _logger.LogInformation("Retrieved book metadata with ID: {BookId}, Title: {Title}", id, book.Title);
+            } else {
+                _logger.LogWarning("Book not found with ID: {BookId}", id);
+            }
+            return book;
+        }
+        catch (Exception ex) {
+            _logger.LogError(ex, "Error retrieving book metadata with ID: {BookId}", id);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Get a specific chapter by book ID and chapter number
+    /// </summary>
+    public async Task<Chapter?> GetChapterAsync(int bookId, int chapterNumber) {
+        try {
+            var chapter = await _bookRepository.GetChapterAsync(bookId, chapterNumber);
+            if (chapter != null) {
+                _logger.LogInformation("Retrieved chapter {ChapterNumber} for book {BookId}", chapterNumber, bookId);
+            }
+            return chapter;
+        }
+        catch (Exception ex) {
+            _logger.LogError(ex, "Error retrieving chapter {ChapterNumber} for book {BookId}", chapterNumber, bookId);
             throw;
         }
     }
