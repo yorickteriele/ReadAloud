@@ -4,7 +4,8 @@ import type { Book, FileParameter, Chapter } from '../api/generated/api-client';
 
 export const bookService = {
   async getAllBooks(): Promise<Book[]> {
-    return await booksApiClient.getAllBooks();
+    const data = await booksApiClient.getAllBooks();
+    return data as any as Book[];
   },
 
   async getBook(id: number): Promise<Book> {
@@ -31,7 +32,7 @@ export const bookService = {
         throw new Error(response.message || 'Failed to upload book');
     }
 
-    return response.book;
+    return response.book as any as Book;
   },
 
   async deleteBook(id: number): Promise<void> {
