@@ -33,6 +33,8 @@ services:
       JwtSettings__Issuer: ReadAloudAPI
       JwtSettings__Audience: ReadAloudClient
       Cors__AllowedOrigins__0: "${FRONTEND_ORIGIN:-https://readaloud.yorickteriele.nl}"
+    volumes:
+      - book_data:/app/BookData
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5101/health"]
       interval: 30s
@@ -62,6 +64,7 @@ services:
 volumes:
   postgres_data:
   chatterbox_prompts:
+  book_data:
 
 networks:
   dokploy-network:
