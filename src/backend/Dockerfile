@@ -13,17 +13,17 @@ RUN dotnet publish "MigrationRunner/MigrationRunner.csproj" -c Release -o /app/p
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://+:5001
+ENV ASPNETCORE_URLS=http://+:5101
 
 RUN useradd -m -u 1001 appuser && chown -R appuser /app
 
 COPY --from=publish /app/publish/host .
 COPY --from=publish /app/publish/migration-runner ./migration-runner
 
-EXPOSE 5001
+EXPOSE 5101
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-  CMD curl -f http://127.0.0.1:5001/health || exit 1
+  CMD curl -f http://127.0.0.1:5101/health || exit 1
 
 USER appuser
 

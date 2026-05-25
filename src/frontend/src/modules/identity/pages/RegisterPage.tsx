@@ -5,6 +5,7 @@ import { BookOpen } from 'lucide-react';
 import { Button, Input } from '../../../components/ui';
 import { authService } from '../services/auth.service';
 import { useAuthStore } from '../store/auth.store';
+import { getErrorMessage } from '../../../lib/errorUtils';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ export const RegisterPage = () => {
         setErrors({ general: response.message || 'Registration failed' });
       }
     } catch (err: any) {
-      setErrors({ general: err.response?.data?.message || 'An error occurred during registration' });
+      setErrors({ general: getErrorMessage(err, 'An error occurred during registration') });
     } finally {
       setIsLoading(false);
     }

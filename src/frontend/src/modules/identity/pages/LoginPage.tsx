@@ -5,6 +5,7 @@ import { BookOpen } from 'lucide-react';
 import { Button, Input } from '../../../components/ui';
 import { authService } from '../services/auth.service';
 import { useAuthStore } from '../store/auth.store';
+import { getErrorMessage } from '../../../lib/errorUtils';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export const LoginPage = () => {
         setError(response.message || 'Login failed');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred during login');
+      setError(getErrorMessage(err, 'An error occurred during login'));
     } finally {
       setIsLoading(false);
     }

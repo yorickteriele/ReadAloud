@@ -23,10 +23,10 @@ public class BookService {
             var (book, coverImage) = await _parser.ParseAsync(fileStream);
             
             if (string.IsNullOrWhiteSpace(book.Title)) {
-                book.Title = title;
+                book.Title = title ?? "Untitled";
             }
             if (string.IsNullOrWhiteSpace(book.Author)) {
-                book.Author = author;
+                book.Author = author ?? "Unknown Author";
             }
             if (!string.IsNullOrWhiteSpace(launguageId)) {
                 book.LaungaugeId = launguageId;
@@ -71,7 +71,7 @@ public class BookService {
     public async Task<List<Book>> GetAllBooksAsync() {
         try {
             var books = await _bookRepository.GetAllAsync();
-            _logger.LogInformation("Retrieved {BookCount} books", books?.Count ?? 0);
+            _logger.LogInformation("Retrieved {BookCount} books", books.Count);
             return books;
         }
         catch (Exception ex) {
@@ -83,7 +83,7 @@ public class BookService {
     /// <summary>
     /// Get a specific book by ID
     /// </summary>
-    public async Task<Book> GetBookByIdAsync(int id) {
+    public async Task<Book?> GetBookByIdAsync(int id) {
         try {
             var book = await _bookRepository.GetByIdAsync(id);
             if (book != null) {
@@ -113,7 +113,7 @@ public class BookService {
         }
     }
 
-    private async Task<byte[]> GetCoverImageAsync(Stream fileStream) {
+    private async Task<byte[]?> GetCoverImageAsync(Stream fileStream) {
         var epubBook = await VersOne.Epub.EpubReader.ReadBookAsync(fileStream);
         return epubBook.CoverImage;
     }

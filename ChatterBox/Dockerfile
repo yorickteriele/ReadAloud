@@ -32,7 +32,7 @@ COPY . .
 RUN mkdir -p /app/audio_prompts
 
 # Expose FastAPI port
-EXPOSE 8000
+EXPOSE 5102
 
 # Run FastAPI server
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "5102"]

@@ -47,7 +47,7 @@ jobs:
       - name: Start Host for OpenAPI
         env:
           ASPNETCORE_ENVIRONMENT: Development
-          ASPNETCORE_URLS: http://localhost:5001
+          ASPNETCORE_URLS: http://localhost:5101
           Database__ApplyMigrationsOnStartup: "false"
           JwtSettings__Key: ci_secret_value_that_is_long_enough_for_testing_only_1234567890
           JwtSettings__Issuer: ReadAloudAPI
@@ -61,7 +61,7 @@ jobs:
       - name: Wait for Host
         run: |
           for attempt in $(seq 1 30); do
-            if curl -sf http://localhost:5001/health > /dev/null; then exit 0; fi
+            if curl -sf http://localhost:5101/health > /dev/null; then exit 0; fi
             sleep 2
           done
           cat /tmp/readaloud-host.log
@@ -70,7 +70,7 @@ jobs:
       - name: Generate frontend contracts
         working-directory: src/frontend
         env:
-          OPENAPI_BASE_URL: http://localhost:5001
+          OPENAPI_BASE_URL: http://localhost:5101
         run: npm run generate
 
       - name: Build frontend

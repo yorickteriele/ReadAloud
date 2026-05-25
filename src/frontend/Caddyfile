@@ -4,7 +4,7 @@ readaloud.yorickteriele.nl {
     }
 
     handle /api/* {
-        reverse_proxy backend:5001
+        reverse_proxy backend:5101
     }
 
     handle {

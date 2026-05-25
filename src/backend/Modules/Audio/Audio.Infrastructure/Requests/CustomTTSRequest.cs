@@ -24,5 +24,5 @@ public class CustomTTSRequest
         public float? SpeedFactor { get; set; }
 
         [JsonPropertyName("language_id")]
-        public string Language { get; set; }
+        public required string Language { get; set; }
     }

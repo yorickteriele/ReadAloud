@@ -5,7 +5,7 @@ services:
     build: .
     container_name: chatterbox
     ports:
-      - "8000:8000"
+      - "5102:5102"
     volumes:
       - /c/DEV/ReadAloud/ChatterBox/audio_prompts:/app/audio_prompts
     restart: unless-stopped

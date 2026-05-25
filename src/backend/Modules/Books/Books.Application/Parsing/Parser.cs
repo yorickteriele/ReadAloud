@@ -19,8 +19,9 @@ public class Parser : IParser {
 
         // Create the book entity
         var book = new Book {
-            Title = epubBook.Title, 
-            Author = epubBook.Author, 
+            Title = epubBook.Title ?? "Untitled", 
+            Author = epubBook.Author ?? "Unknown Author", 
+            LaungaugeId = "en", // Default, will be updated by service if provided
             Chapters = new List<Chapter>()
         };
 
@@ -51,7 +52,7 @@ public class Parser : IParser {
         };
 
         // Get the content file from the link
-        if (navItem.Link == null) return null;
+        if (navItem.Link == null || navItem.HtmlContentFile == null) return null;
     
         // Access content directly from the link
         var htmlContent = navItem.HtmlContentFile.Content;

@@ -19,7 +19,7 @@ const authenticatedFetch: typeof fetch = async (input, init) => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
 
-    const url = typeof input === 'string' ? input : input.url
+    const url = typeof input === 'string' ? input : (input instanceof Request ? input.url : input.toString());
     if (!url.includes('/auth/login') && !url.includes('/auth/register')) {
       window.location.href = '/'
     }
